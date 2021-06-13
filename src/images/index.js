@@ -6,8 +6,8 @@ const Images = {
     SerachFocused: require('./search.png'),
     Add: require('./add.png'),
     AddFocused: require('./add.png'),
-    // menu: require('./menu.png'),
-    // menuFocused: require('./menu-focused.png'),
+    user: require('./user.png'),
+    userFocused: require('./user.png'),
   },
 };
 

@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 import Home from './homestack';
 import Logger from '../screens/Logger';
 import Documents from '../screens/Documents';
-// import Menu from './src/Menu';
+import Profile from './ProfileStack';
 
 export default function App() {
   return (
@@ -54,13 +54,13 @@ export default function App() {
             ),
           }}
         />
-        {/* <Tab.Screen
-          name="Menu"
-          component={Menu}
+        <Tab.Screen
+          name="user"
+          component={Profile}
           options={{
-            tabBarButton: (props) => <TabComponent label="menu" {...props} />,
+            tabBarButton: (props) => <TabComponent label="user" {...props} />,
           }}
-        /> */}
+        />
       </Tab.Navigator>
 
   );

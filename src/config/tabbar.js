@@ -8,14 +8,14 @@ const bgColors = {
   home: '#bce3fa',
   Add: '#bce3fa',
   Serach: '#bce3fa',
-  menu: '#bce3fa',
+  user: '#bce3fa',
 };
 
 const textColors = {
   home:'#2d9cdb',
   Add: '#2d9cdb',
   Serach: '#2d9cdb',
-  menu: '#2d9cdb',
+  user: '#2d9cdb',
 };
 
 const Container = styled.TouchableWithoutFeedback``;

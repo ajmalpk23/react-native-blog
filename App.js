@@ -4,7 +4,7 @@ import { StyleSheet, Text, View,Button } from 'react-native'
 import {NavigationContainer} from '@react-navigation/native';
 import Bootomtabbar from './src/routes/boottomtabbarnav'
 
-
+import Post from './src/screens/Menu'
 
 
 
@@ -14,10 +14,11 @@ import Bootomtabbar from './src/routes/boottomtabbarnav'
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Bootomtabbar />
+    // <NavigationContainer>
+    //   <Bootomtabbar />
      
-    </NavigationContainer>
+    // </NavigationContainer>
+    <Post />
   );
 }
 

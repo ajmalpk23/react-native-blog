@@ -1,18 +1,16 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
-const Container = styled.View`
-  background: #2d9cdb;
-  flex: 1;
-`;
-const Text = styled.Text``;
+import Appbar from '../config/appbar'
 
-function Menu() {
+export default function Menu() {
   return (
-    <Container>
-      <Text>Menu</Text>
-    </Container>
-  );
+    <View>
+      <Appbar />
+      
+      
+    </View>
+  )
 }
 
-export default Menu;
+const styles = StyleSheet.create({})
