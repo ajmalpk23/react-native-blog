@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,10 @@ import {
 import LottieView from 'lottie-react-native';
 
 export default function Login({navigation}) {
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState();
+  console.log(email,password)
+
   return (
     <View style={{backgroundColor: '#fff'}}>
       <View>
@@ -24,33 +28,68 @@ export default function Login({navigation}) {
             top: 20,
           }}
         />
-        <View style={{height:250}} >
-          <Text style={{fontWeight:'800',left:25}} >Email</Text>
+        <View style={{height: 250}}>
+          <Text style={{fontWeight: '800', left: 25}}>Email</Text>
           <TextInput
-            style={{width: '90%', left: '5%', right: '5%',borderRadius:15,borderWidth:1,top:10,
-            borderColor:'#bce3fa'}}
+            style={{
+              width: '90%',
+              left: '5%',
+              right: '5%',
+              borderRadius: 15,
+              borderWidth: 1,
+              top: 10,
+              borderColor: '#bce3fa',
+            }}
+            onChangeText={(e)=>setemail(e)}
             placeholder="Enter your Email"
           />
-          <Text style={{fontWeight:'800',left:25,top:20}} > Password</Text>
+          <Text style={{fontWeight: '800', left: 25, top: 20}}> Password</Text>
           <TextInput
-            style={{width: '90%', left: '5%', right: '5%',borderRadius:15,borderWidth:1,borderColor:'#bce3fa',top:30}}
+            style={{
+              width: '90%',
+              left: '5%',
+              right: '5%',
+              borderRadius: 15,
+              borderWidth: 1,
+              borderColor: '#bce3fa',
+              top: 30,
+            }}
+            onChangeText={(e)=>{setpassword(e)}}
             placeholder="Enter your Password"
           />
           <TouchableOpacity
-           onPress={() => navigation.navigate('Bottom')}
+            onPress={() => navigation.navigate('Bottom')}
             style={{
               width: '90%',
               left: '5%',
               right: '5%',
               backgroundColor: '#bce3fa',
               height: 50,
-              borderRadius: 15,top:50
+              borderRadius: 15,
+              top: 50,
             }}>
-            <Text style={{alignSelf:'center',fontWeight:'bold',fontSize:16,color:'#fff',top:8}} >Login</Text>
+            <Text
+              style={{
+                alignSelf: 'center',
+                fontWeight: 'bold',
+                fontSize: 16,
+                color: '#fff',
+                top: 8,
+              }}>
+              Login
+            </Text>
           </TouchableOpacity>
         </View>
-        <View style={{left:'5%',right:'5%',width:'90%',top:30}}>
-          <View style={{flexDirection: 'row', backgroundColor: '#FFF',borderColor:'#bce3fa',borderWidth:2,borderRadius:20,height:50}}>
+        <View style={{left: '5%', right: '5%', width: '90%', top: 30}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#FFF',
+              borderColor: '#bce3fa',
+              borderWidth: 2,
+              borderRadius: 20,
+              height: 50,
+            }}>
             <LottieView
               source={require('../images/google.json')}
               autoPlay
@@ -62,9 +101,20 @@ export default function Login({navigation}) {
                 alignSelf: 'center',
               }}
             />
-            <Text style={{fontWeight:'bold',fontSize:16,top:10,left:15}} >Sign in with google</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 16, top: 10, left: 15}}>
+              Sign in with google
+            </Text>
           </View>
-          <View style={{flexDirection: 'row', backgroundColor: '#FFF',borderColor:'#bce3fa',borderWidth:2,borderRadius:20,height:50,top:10}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#FFF',
+              borderColor: '#bce3fa',
+              borderWidth: 2,
+              borderRadius: 20,
+              height: 50,
+              top: 10,
+            }}>
             <LottieView
               source={require('../images/facebook.json')}
               autoPlay
@@ -76,12 +126,18 @@ export default function Login({navigation}) {
                 alignSelf: 'center',
               }}
             />
-            <Text  style={{fontWeight:'bold',fontSize:16,top:10,left:15}}>Sign in with facebook</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 16, top: 10, left: 15}}>
+              Sign in with facebook
+            </Text>
           </View>
         </View>
-        <TouchableOpacity style={{flexDirection: 'row',alignSelf:'center',marginTop:60}} onPress={() => navigation.navigate('Signup')} >
-          <Text style={{fontWeight:'600'}}>Not registerd yet,</Text>
-          <Text style={{fontWeight:'bold',color:'#bce3fa'}}>Register Now</Text>
+        <TouchableOpacity
+          style={{flexDirection: 'row', alignSelf: 'center', marginTop: 60}}
+          onPress={() => navigation.navigate('Signup')}>
+          <Text style={{fontWeight: '600'}}>Not registerd yet,</Text>
+          <Text style={{fontWeight: 'bold', color: '#bce3fa'}}>
+            Register Now
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
