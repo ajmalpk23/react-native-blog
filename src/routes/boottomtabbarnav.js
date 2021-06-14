@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 
 import Home from './homestack';
 import Logger from './AddStack';
-import Documents from '../screens/Documents';
+import Documents from './SearchStack';
 import Profile from './ProfileStack';
 
 export default function App() {
