@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 
-export default function Login() {
+export default function Login({navigation}) {
   return (
     <View style={{backgroundColor: '#fff'}}>
       <View>
@@ -37,6 +37,7 @@ export default function Login() {
             placeholder="Enter your Password"
           />
           <TouchableOpacity
+           onPress={() => navigation.navigate('Bottom')}
             style={{
               width: '90%',
               left: '5%',
@@ -78,10 +79,10 @@ export default function Login() {
             <Text  style={{fontWeight:'bold',fontSize:16,top:10,left:15}}>Sign in with facebook</Text>
           </View>
         </View>
-        <View style={{flexDirection: 'row',alignSelf:'center',top:60}}>
+        <TouchableOpacity style={{flexDirection: 'row',alignSelf:'center',marginTop:60}} onPress={() => navigation.navigate('Signup')} >
           <Text style={{fontWeight:'600'}}>Not registerd yet,</Text>
           <Text style={{fontWeight:'bold',color:'#bce3fa'}}>Register Now</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
