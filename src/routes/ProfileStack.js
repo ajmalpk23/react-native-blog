@@ -7,7 +7,7 @@ import Profile from '../screens/Menu'
 
 
 const stack = createStackNavigator();
-export default HomeStack = () => {
+export default ProfileStack = () => {
   return (
     <stack.Navigator initialRouteName='Profile' headerMode={false}>
       <stack.Screen name='Profile' component={Profile} />
