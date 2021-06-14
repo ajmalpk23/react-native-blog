@@ -4,7 +4,7 @@ import { StyleSheet, Text, View,Button } from 'react-native'
 import {NavigationContainer} from '@react-navigation/native';
 import Bootomtabbar from './src/routes/boottomtabbarnav'
 
-import Post from './src/screens/singup'
+import Post from './src/screens/Logger'
 
 
 import Splashs from './src/routes/LoginStack'

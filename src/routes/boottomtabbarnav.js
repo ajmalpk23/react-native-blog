@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 
 
 import Home from './homestack';
-import Logger from '../screens/Logger';
+import Logger from './AddStack';
 import Documents from '../screens/Documents';
 import Profile from './ProfileStack';
 
