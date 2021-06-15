@@ -25,15 +25,11 @@ const Submit = () =>{
   .then((response) => {
     
     console.log(response.user.uid)
-    seuserid(response.user.uid)
-    console.log('User account created & signed in!');
-
-
     try {
       firestore()
     .collection('Users')
     .add({
-      id:userid,
+      id:response.user.uid,
       name: name,
       phone: phone,
       email:email
@@ -45,6 +41,11 @@ const Submit = () =>{
     catch(err) {
       console.log('errorr'+err)
     }
+    seuserid(response.user.uid)
+    console.log('User account created & signed in!');
+
+
+    
 
 
 
