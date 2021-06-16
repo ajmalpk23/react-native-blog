@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,20 +8,58 @@ import {
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}) {
+
+
+useEffect( async ()=>{
+  
+
+
+
+
+
+        // if (username === 'anthony' && password === '123456') {
+        //     console.log('Nice')
+        //     navigation.navigate('Home')
+        // }else {
+        //     console.log('pas tres nice ')
+        // }}
+    
+  
+},[])
+
+
+
+
+
+
+
   const [email, setemail] = useState('');
   const [password, setpassword] = useState();
   const [userid, setuserid] = useState();
   const [log, setlog] = useState(false);
   console.log(email, password);
 
-  const submit = () => {
+  const submit =  () => {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(response => {
         navigation.navigate('Bottom')
         console.log(response);
+        console.log(response.user.uid)
+        try {
+           AsyncStorage.setItem('userid', response.user.uid)
+  //  console.log(AsyncStorage.getItem('token'))
+  AsyncStorage.getItem('userid').then((fff)=>{
+    console.log('Async storage user id     '+fff)
+  })
+
+        } catch (e) {
+          console.log(e)
+          // saving error
+        }
         console.log('User account created & signed in!');
         setlog(true);
       })

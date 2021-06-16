@@ -18,10 +18,20 @@ import LottieView from 'lottie-react-native';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Logger() {
 
+  const [userid,setuserid] = useState()
+
+useEffect(()=>{
+  AsyncStorage.getItem('userid').then((res)=>{
+    console.log('Async storage user id     '+res)
+    setuserid(res)
+  })
+
+},[])
 
 
 
@@ -31,7 +41,6 @@ export default function Logger() {
 
 
 
-  
   const [Subject, setsubject] = useState('');
   const [dis, setdis] = useState('');
 
@@ -114,6 +123,7 @@ export default function Logger() {
                     dis: dis,
                     date: Daten,
                     url: url,
+                    userid:userid
                   })
                   .then(() => {
                     Donemodal();
