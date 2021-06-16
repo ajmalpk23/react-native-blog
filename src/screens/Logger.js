@@ -1,26 +1,53 @@
-import React,{useState} from 'react';
-import {StyleSheet, Text, View, ScrollView, TextInput,TouchableOpacity,StatusBar,ImageBackground  } from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  StatusBar,
+  ImageBackground,
+  Image, ActivityIndicator,
+} from 'react-native';
 import Appbar from '../config/appbar';
 import ImagePicker from 'react-native-image-crop-picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
 import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 
 export default function Logger() {
+
+
+
+
+
+
+
+
+
+
+  
+  const [Subject, setsubject] = useState('');
+  const [dis, setdis] = useState('');
+
+  let Daten = Date.now();
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [done, setdone] = useState(false);
   const Donemodal = () => {
     setdone(!isModalVisible);
   };
 
-
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
   const [image, setImage] = useState(
-    'https://www.nicepng.com/png/detail/129-1298352_upload-icon-logo-upload-file-png.png'
+    'https://www.nicepng.com/png/detail/129-1298352_upload-icon-logo-upload-file-png.png',
   );
 
   const takePhotoFromCamera = () => {
@@ -30,7 +57,7 @@ export default function Logger() {
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
-      console.log(image);
+      console.log(image.path);
       setImage(image.path);
       // bs.current.snapTo(0);
     });
@@ -48,10 +75,72 @@ export default function Logger() {
       // bs.current.snapTo(0);
     });
   };
+  const Submit = async () => {
+    console.log('saljffffffffffffffffffshgjk');
+    try {
+      let file = image.substring(image.lastIndexOf('/') + 1);
+      let filename = file + +Date.now() + '.';
+      console.log('Welcome guest!');
+      const reference = storage().ref(`/post/${filename}`);
 
+      const task = storage().ref(`/post/${filename}`).putFile(image);
 
+      task.on('state_changed', taskSnapshot => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+      });
+      // console.log(storageRef.getDownloadURL())
 
+      task
+        .then(() => {
+          // console.log(task.storageRef.getDownloadURL())
+          console.log('Image uploaded to the bucket!');
+        })
 
+        .then((res, task) => {
+          // console.log(res.getDownloadURL())
+          storage()
+            .ref(`/post/${filename}`)
+            .getDownloadURL()
+            .then(url => {
+              console.log('url    ;-====' + url);
+              console.log('uploaded');
+              try {
+                firestore()
+                  .collection('Post')
+                  .add({
+                    Subject: Subject,
+                    dis: dis,
+                    date: Daten,
+                    url: url,
+                  })
+                  .then(() => {
+                    Donemodal();
+                    console.log('User added!');
+                  });
+              } catch (err) {
+                console.log(err);
+              }
+            });
+          Donemodal();
+        });
+      const storageRef = storage().ref(filename);
+      task.on('state_changed', taskSnapshot => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+      });
+      // console.log(storageRef.getDownloadURL())
+
+      task.then(() => {
+        // console.log(task.storageRef.getDownloadURL())
+        console.log('Image uploaded to the bucket!');
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <View
@@ -72,9 +161,10 @@ export default function Logger() {
             top: 20,
             borderRadius: 25,
             height: 630,
-            marginBottom:20
+            marginBottom: 20,
           }}>
           <TextInput
+            onChangeText={e => setsubject(e)}
             multiline={true}
             style={{
               top: 20,
@@ -84,13 +174,17 @@ export default function Logger() {
               width: '90%',
               left: '5%',
               right: '5%',
-              borderColor: '#bce3fa',textAlign:'center'
+              borderColor: '#bce3fa',
+              textAlign: 'center',
             }}
             placeholder="Subject"
             numberOfLines={7}
-            placeholderTextColor='#000'
+            placeholderTextColor="#000"
           />
-           <TextInput
+          <TextInput
+            onChangeText={e => {
+              setdis(e);
+            }}
             multiline={true}
             style={{
               top: 40,
@@ -100,15 +194,16 @@ export default function Logger() {
               width: '90%',
               left: '5%',
               right: '5%',
-              borderColor: '#bce3fa',textAlign:'center'
+              borderColor: '#bce3fa',
+              textAlign: 'center',
             }}
             placeholder="Subject"
             numberOfLines={7}
-            placeholderTextColor='#000'
+            placeholderTextColor="#000"
           />
           <TouchableOpacity
-           onPress={()=>toggleModal()}
-          style={{
+            onPress={() => toggleModal()}
+            style={{
               top: 60,
               borderRadius: 15,
               borderWidth: 1,
@@ -117,22 +212,26 @@ export default function Logger() {
               left: '5%',
               right: '5%',
               borderColor: '#bce3fa',
-            }} >
-              <ImageBackground
-                source={{
-                  uri: image,
-                }}
-                style={{height: 150, width: '100%'}}
-                imageStyle={{borderRadius: 10}}></ImageBackground>
-                <Modal
+            }}>
+            <ImageBackground
+              source={{
+                uri: image,
+              }}
+              style={{height: 150, width: '100%'}}
+              imageStyle={{borderRadius: 10}}></ImageBackground>
+            <Modal
               isVisible={isModalVisible}
               hasBackdrop={true}
               backdropOpacity={0}
-              style={{backgroundColor: 'rgba(52, 52, 52, alpha)',margin:0,padding:0}}
+              style={{
+                backgroundColor: 'rgba(52, 52, 52, alpha)',
+                margin: 0,
+                padding: 0,
+              }}
               onBackdropPress={() => {
                 toggleModal();
               }}>
-              <View style={{bottom: -240,margin:0,padding:0}}>
+              <View style={{bottom: -240, margin: 0, padding: 0}}>
                 <View style={styles.panel}>
                   <View style={{alignItems: 'center'}}>
                     <Text style={styles.panelTitle}>Upload Photo</Text>
@@ -163,48 +262,63 @@ export default function Logger() {
                 </View>
               </View>
             </Modal>
-
           </TouchableOpacity>
 
-          <TouchableOpacity 
-         onPress={()=>Donemodal()}
-           style={{borderRadius: 15, 
-          marginTop:80,
+          <TouchableOpacity
+            onPress={() => Submit()}
+            style={{
+              borderRadius: 15,
+              marginTop: 80,
               // borderWidth: 1,
               height: 50,
               width: '90%',
               left: '5%',
               right: '5%',
-              backgroundColor: '#bce3fa'}}>
-                <Text style={{fontWeight:'bold',alignSelf:'center',fontSize:20,color:'#fff',top:10}} >Post</Text>
-
+              backgroundColor: '#bce3fa',
+            }}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                alignSelf: 'center',
+                fontSize: 20,
+                color: '#fff',
+                top: 10,
+              }}>
+              Post
+            </Text>
           </TouchableOpacity>
           <Modal
-              isVisible={done}
-              hasBackdrop={true}
-              backdropOpacity={0}
-              style={{backgroundColor:'rgba(0,0,0,0.2)',margin:0}}
-              onBackdropPress={() => {
-                setdone(false)
+            isVisible={done}
+            hasBackdrop={true}
+            backdropOpacity={0}
+            style={{backgroundColor: 'rgba(0,0,0,0.2)', margin: 0}}
+            onBackdropPress={() => {
+              setdone(false);
+            }}>
+            <View
+              style={{
+                height: 300,
+                width: '80%',
+                backgroundColor: '#fff',
+                alignSelf: 'center',
+                borderRadius: 15,
               }}>
-             <View style={{height:300,width:'80%',backgroundColor:'#fff',alignSelf:'center',borderRadius:15}}>
-             <View style={{}}>
-             <LottieView
-          source={require('../images/DONEjson.json')}
-          autoPlay
-          loop
-          style={{
-            backgroundColor: '#FFF',
-            height: 270,
-            justifyContent: 'center',
-            alignSelf: 'center',
-            top: 10,
-          }}
-        />
-             </View>
-
-             </View>
-            </Modal>
+              <View style={{}}>
+                <LottieView
+                  source={require('../images/DONEjson.json')}
+                  autoPlay
+                  loop
+                  style={{
+                    backgroundColor: '#FFF',
+                    height: 270,
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                    top: 10,
+                  }}
+                />
+              </View>
+            </View>
+          </Modal>
         </View>
       </ScrollView>
     </View>
@@ -212,7 +326,6 @@ export default function Logger() {
 }
 
 const styles = StyleSheet.create({
- 
   headerView: {
     flexDirection: 'row',
     top: '1%',
@@ -291,18 +404,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-   // marginTop: 20,
+    // marginTop: 20,
   },
   txtInput: {
     borderRadius: 8,
     borderColor: '#dcdcdc',
-   // margin: 10,
+    // margin: 10,
     borderWidth: 2,
-    bottom:'12%',
+    bottom: '12%',
     width: '92%',
     height: 40,
-    left:'4%',
-    right:'4%',
+    left: '4%',
+    right: '4%',
     alignItems: 'center',
     marginTop: StatusBar.currentHeight || 0,
   },
