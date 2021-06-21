@@ -23,7 +23,7 @@ const Submit = () =>{
   auth()
   .createUserWithEmailAndPassword(email,password)
   .then((response) => {
-    
+    console.log(response  )
     console.log(response.user.uid)
     try {
       firestore()
@@ -34,7 +34,8 @@ const Submit = () =>{
       phone: phone,
       email:email
     })
-    .then(() => {
+    .then((res) => {
+      console.log(res)
       console.log('User added!');
     });
     }

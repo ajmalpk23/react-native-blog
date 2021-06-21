@@ -121,7 +121,7 @@ useEffect(()=>{
                   .add({
                     Subject: Subject,
                     dis: dis,
-                    date: Daten,
+                    date: new Date().toJSON().slice(0,10),
                     url: url,
                     userid:userid
                   })
